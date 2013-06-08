@@ -1,12 +1,12 @@
-#lembrete: conseguir um modo de mostrar o usuário se é admin ou estudante
-
 class User
-  #attr_accessor :type
-  attr_reader :login, :pw
+
+  attr_accessor :registry, :name, :login, :password
 
   def initialize(params)
-    #@type = params[:type]
+    @registry = params[:registry]
+    @name = params[:name]
     @login = params[:login]
-    @pass = params[:pw]
+    @password = params[:password]
   end
+
 end

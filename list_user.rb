@@ -1,27 +1,68 @@
-# Arquivo incompleto; sistema de login não está funcionando direito ainda.
+require_relative 'user.rb'
 
-class List_user < Hash
+class List_user
 
-  def sign_in(user)
-    x = 0
-    File.open("student.txt") do |word|
-      word.each_line do |line|
-        line.split(".")
-          if(self[user.login] == line[0]) && (self[user.pw] == line[1])
-            puts "> Logged as #{user.login}"
-          else
-            x = 1
+  def adm_sign_in(user)
+    i = 1
+    login = " ", password = " ", name = " "
+    File.open("admin.txt") do |txt|
+      txt.each_line do |line|
+        if (i == 1)
+          name = line
+        elsif (i == 2)
+          login = line
+        else
+          password = line
+        end
+        i += 1
+        end
+    end
+    if(user.login == login) and (user.password == password)
+      system("clear")
+      puts "> Hi #{name.chomp}, welcome."
+      puts "> Enter anything to continue: "
+      trash = gets
+      return user.login
+    else
+      system("clear")
+      puts "> Invalid login or password."
+      puts "> Enter anything to continue: "
+      trash = gets
+    end
+  end
+
+  def std_sign_in(user)
+    i = 1
+    registry = " ", login = " ", password = " ", name = " "
+    puts "#{user.registry}"
+    if !File.exist?("#{user.registry.chomp}.txt")
+      puts "> Invalid user."
+    else
+      File.open("#{user.registry.chomp}.txt") do |txt|
+        txt.each_line do |line|
+          if (i == 1)
+            registry = line
+          elsif (i == 2)
+            name = line
+          elsif (i == 3)
+            password = line
+          end
+          i += 1
           end
       end
-    end
-    if x == 1
-      puts "> Invalid user"
+      if (user.registry == registry) and (user.password == password)
+        system("clear")
+        puts "> Hi #{name.chomp}, welcome."
+        puts "> Enter anything to continue: "
+        trash = gets
+        return user.registry
+      else
+        system("clear")
+        puts "> Invalid registry or password."
+        puts "> Enter anything to continue: "
+        trash = gets
+      end
     end
   end
 
-
-  def sign_up(user)
-    self[user.login] = user
-    puts "> User #user.login created."
-  end
 end
